@@ -10,7 +10,7 @@ namespace Liyanjie.Modularization.Sample.AspNet
 {
     public class Global : System.Web.HttpApplication
     {
-        readonly IServiceCollection services = new ServiceCollection();
+        static readonly IServiceCollection services = new ServiceCollection();
 
         protected void Application_Start(object sender, EventArgs e)
         {

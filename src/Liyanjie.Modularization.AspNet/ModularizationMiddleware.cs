@@ -19,7 +19,7 @@ namespace Liyanjie.Modularization.AspNet
         public ModularizationMiddleware(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
-            this.moduleTable = moduleTable ?? throw new ArgumentNullException(nameof(moduleTable));
+            this.moduleTable = serviceProvider.GetService(typeof(ModularizationModuleTable)) as ModularizationModuleTable ?? throw new ArgumentNullException(nameof(moduleTable));
         }
 
         /// <summary>
