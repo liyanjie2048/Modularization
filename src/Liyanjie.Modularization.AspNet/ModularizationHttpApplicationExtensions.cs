@@ -13,20 +13,20 @@ namespace System.Web
         /// Add in Global.Application_Start.(Use DI)
         /// </summary>
         /// <param name="app"></param>
-        /// <param name="serviceRegistration"></param>
+        /// <param name="serviceRegister"></param>
         /// <param name="deserializeFromRequest"></param>
         /// <param name="serializeToResponse"></param>
         /// <returns></returns>
         public static ModularizationModuleTable AddModularization(this HttpApplication app,
-            Action<object, string> serviceRegistration,
+            Action<object, string> serviceRegister,
             Func<HttpRequest, Type, Task<object>> deserializeFromRequest,
             Func<HttpResponse, object, Task> serializeToResponse)
         {
             ModularizationDefaults.DeserializeFromRequestAsync = deserializeFromRequest ?? throw new ArgumentNullException(nameof(deserializeFromRequest));
             ModularizationDefaults.SerializeToResponseAsync = serializeToResponse ?? throw new ArgumentNullException(nameof(serializeToResponse));
 
-            var moduleTable = new ModularizationModuleTable(serviceRegistration);
-            serviceRegistration(moduleTable, "Scoped");
+            var moduleTable = new ModularizationModuleTable(serviceRegister);
+            serviceRegister(moduleTable, "Singleton");
 
             return moduleTable;
         }

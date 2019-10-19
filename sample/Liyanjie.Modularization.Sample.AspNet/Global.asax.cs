@@ -31,15 +31,13 @@ namespace Liyanjie.Modularization.Sample.AspNet
 
             #region Use DI
             void serviceRegister(object instance, string lifeTime)
-            {
-                _ = lifeTime switch
+                => _ = lifeTime.ToLower() switch
                 {
-                    "Singleton" => services.AddSingleton(instance.GetType(), sp => instance),
-                    "Scoped" => services.AddScoped(instance.GetType(), sp => instance),
-                    "Transient" => services.AddTransient(instance.GetType(), sp => instance),
+                    "singleton" => services.AddSingleton(instance.GetType(), sp => instance),
+                    "scoped" => services.AddScoped(instance.GetType(), sp => instance),
+                    "transient" => services.AddTransient(instance.GetType(), sp => instance),
                     _ => services,
                 };
-            }
             this.AddModularization(serviceRegister, deserializeFromRequest, serializeToResponse)
                 //.AddModule<TModule,TModuleOptions>()
                 ;
