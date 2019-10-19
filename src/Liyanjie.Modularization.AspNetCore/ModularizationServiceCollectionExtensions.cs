@@ -26,10 +26,10 @@ namespace Microsoft.Extensions.DependencyInjection
             ModularizationDefaults.DeserializeFromRequestAsync = deserializeFromRequest ?? throw new ArgumentNullException(nameof(deserializeFromRequest));
             ModularizationDefaults.SerializeToResponseAsync = serializeToResponse ?? throw new ArgumentNullException(nameof(serializeToResponse));
 
-            var table = new ModularizationModuleTable(services);
-            services.AddSingleton(table);
+            var moduleTable = new ModularizationModuleTable(services);
+            services.AddSingleton(moduleTable);
 
-            return table;
+            return moduleTable;
         }
     }
 }

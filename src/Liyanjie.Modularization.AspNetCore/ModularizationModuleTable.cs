@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,10 +9,10 @@ namespace Liyanjie.Modularization.AspNetCore
     /// <summary>
     /// 
     /// </summary>
-    public class ModularizationModuleTable
+    public sealed class ModularizationModuleTable
     {
-        internal readonly IList<Type> ModuleTypes = new List<Type>();
         readonly IServiceCollection services;
+        readonly IList<Type> moduleTypes = new List<Type>();
 
         /// <summary>
         /// 
@@ -19,7 +20,25 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <param name="services"></param>
         public ModularizationModuleTable(IServiceCollection services)
         {
-            this.services = services;
+            this.services = services ?? throw new ArgumentNullException(nameof(services));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public IReadOnlyCollection<Type> ModuleTypes => new ReadOnlyCollection<Type>(moduleTypes);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TModule"></typeparam>
+        /// <returns></returns>
+        public ModularizationModuleTable AddModule<TModule>()
+            where TModule : class, IModularizationModule
+        {
+            AddModule<TModule, object>(null);
+
+            return this;
         }
 
         /// <summary>
@@ -35,7 +54,8 @@ namespace Liyanjie.Modularization.AspNetCore
         {
             if (configureOptions != null)
                 services.Configure(configureOptions);
-            ModuleTypes.Add(typeof(TModule));
+
+            moduleTypes.Add(typeof(TModule));
 
             return this;
         }

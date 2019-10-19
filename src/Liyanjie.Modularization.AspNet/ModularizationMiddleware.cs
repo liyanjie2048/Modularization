@@ -9,7 +9,18 @@ namespace Liyanjie.Modularization.AspNet
     /// </summary>
     public class ModularizationMiddleware
     {
+        readonly IServiceProvider serviceProvider;
         readonly ModularizationModuleTable moduleTable;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public ModularizationMiddleware(IServiceProvider serviceProvider)
+        {
+            this.serviceProvider = serviceProvider;
+            this.moduleTable = moduleTable ?? throw new ArgumentNullException(nameof(moduleTable));
+        }
 
         /// <summary>
         /// 
@@ -17,7 +28,7 @@ namespace Liyanjie.Modularization.AspNet
         /// <param name="moduleTable"></param>
         public ModularizationMiddleware(ModularizationModuleTable moduleTable)
         {
-            this.moduleTable = moduleTable;
+            this.moduleTable = moduleTable ?? throw new ArgumentNullException(nameof(moduleTable));
         }
 
         /// <summary>
@@ -27,13 +38,18 @@ namespace Liyanjie.Modularization.AspNet
         /// <returns></returns>
         public async Task Invoke(HttpContext httpContext)
         {
-            foreach (var moduleType in moduleTable.Modules.Keys)
+            foreach (var moduleType in moduleTable.ModuleTypes)
             {
-                if (Activator.CreateInstance(moduleType, moduleTable.Modules[moduleType]) is IModularizationModule module)
+                var module = serviceProvider == null
+                    ? moduleTable.TryGetOptions(moduleType, out var options)
+                        ? Activator.CreateInstance(moduleType, options)
+                        : Activator.CreateInstance(moduleType)
+                    : serviceProvider.GetServiceOrCreateInstance(moduleType);
+                if (module is IModularizationModule _module)
                 {
-                    if (await module.TryMatchRequestingAsync(httpContext))
+                    if (await _module.TryMatchRequestingAsync(httpContext))
                     {
-                        await module.HandleResponsingAsync(httpContext);
+                        await _module.HandleResponsingAsync(httpContext);
                         httpContext.Response.End();
                     }
                 }

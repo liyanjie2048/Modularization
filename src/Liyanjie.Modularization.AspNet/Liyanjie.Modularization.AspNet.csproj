@@ -13,9 +13,10 @@
 
     <ItemGroup>
         <PackageReference Include="Liyanjie.TemplateMatching" Version="1.0.0" />
+        <PackageReference Include="Liyanjie.Utilities" Version="1.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)'=='net45'">
         <Reference Include="System.Web" />
     </ItemGroup>
 

@@ -9,21 +9,53 @@ namespace System.Web
     /// </summary>
     public static class ModularizationHttpApplicationExtensions
     {
+        /// <summary>
+        /// Add in Global.Application_Start.(Use DI)
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="serviceRegistration"></param>
+        /// <param name="deserializeFromRequest"></param>
+        /// <param name="serializeToResponse"></param>
+        /// <returns></returns>
+        public static ModularizationModuleTable AddModularization(this HttpApplication app,
+            Action<object, string> serviceRegistration,
+            Func<HttpRequest, Type, Task<object>> deserializeFromRequest,
+            Func<HttpResponse, object, Task> serializeToResponse)
+        {
+            ModularizationDefaults.DeserializeFromRequestAsync = deserializeFromRequest ?? throw new ArgumentNullException(nameof(deserializeFromRequest));
+            ModularizationDefaults.SerializeToResponseAsync = serializeToResponse ?? throw new ArgumentNullException(nameof(serializeToResponse));
+
+            var moduleTable = new ModularizationModuleTable(serviceRegistration);
+            serviceRegistration(moduleTable, "Scoped");
+
+            return moduleTable;
+        }
+
+        /// <summary>
+        /// Add in Global.Application_BeginRequest.(Use DI)
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
+        public static HttpApplication UseModularization(this HttpApplication app,
+            IServiceProvider serviceProvider)
+        {
+            new ModularizationMiddleware(serviceProvider).Invoke(app.Context).Wait();
+
+            return app;
+        }
+
+        #region Static ModuleTable Mode
+
         static ModularizationModuleTable moduleTable;
 
         /// <summary>
-        /// Add in Global.Application_Start
+        /// Add in Global.Application_Start.(Static ModuleTable)
         /// </summary>
         /// <param name="app"></param>
         /// <param name="deserializeFromRequest"></param>
         /// <param name="serializeToResponse"></param>
         /// <returns></returns>
-        /// <example>
-        /// protected void Application_Start(object sender, EventArgs e)
-        /// {
-        ///    this.AddModularization(serializeToResponse, deserializeFromRequest);
-        /// }
-        /// </example>
         public static ModularizationModuleTable AddModularization(this HttpApplication app,
             Func<HttpRequest, Type, Task<object>> deserializeFromRequest,
             Func<HttpResponse, object, Task> serializeToResponse)
@@ -31,27 +63,23 @@ namespace System.Web
             ModularizationDefaults.DeserializeFromRequestAsync = deserializeFromRequest ?? throw new ArgumentNullException(nameof(deserializeFromRequest));
             ModularizationDefaults.SerializeToResponseAsync = serializeToResponse ?? throw new ArgumentNullException(nameof(serializeToResponse));
 
-            moduleTable = new ModularizationModuleTable();
+            moduleTable = new ModularizationModuleTable(null);
 
             return moduleTable;
         }
 
         /// <summary>
-        /// Add in Global.Application_BeginRequest
+        /// Add in Global.Application_BeginRequest.(Static ModuleTable)
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        /// <example>
-        /// protected void Application_BeginRequest(object sender, EventArgs e)
-        /// {
-        ///    this.UseModularization();
-        /// }
-        /// </example>
         public static HttpApplication UseModularization(this HttpApplication app)
         {
             new ModularizationMiddleware(moduleTable).Invoke(app.Context).Wait();
-            
+
             return app;
         }
+
+        #endregion
     }
 }
