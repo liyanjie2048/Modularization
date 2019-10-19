@@ -11,7 +11,7 @@ namespace Liyanjie.Modularization.AspNet
     public sealed class ModularizationModuleTable
     {
         readonly Action<object, string> serviceRegister;
-        readonly IDictionary<Type, object> moduleTypes = new Dictionary<Type, object>();
+        readonly Dictionary<Type, object> moduleTypes = new Dictionary<Type, object>();
 
         /// <summary>
         /// 
@@ -25,7 +25,7 @@ namespace Liyanjie.Modularization.AspNet
         /// <summary>
         /// 
         /// </summary>
-        public IReadOnlyList<Type> ModuleTypes => new ReadOnlyCollection<Type>(moduleTypes.Keys.ToList());
+        public IReadOnlyList<Type> ModuleTypes => moduleTypes.Keys.ToList();
 
         /// <summary>
         /// 

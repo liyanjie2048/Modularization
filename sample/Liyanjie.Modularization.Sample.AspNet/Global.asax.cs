@@ -43,9 +43,9 @@ namespace Liyanjie.Modularization.Sample.AspNet
                 ;
             #endregion
             #region Static
-            this.AddModularization(deserializeFromRequest, serializeToResponse)
-                //.AddModule<TModule,TModuleOptions>()
-                ;
+            //this.AddModularization(deserializeFromRequest, serializeToResponse)
+            //    //.AddModule<TModule,TModuleOptions>()
+            //    ;
             #endregion
         }
 
@@ -55,7 +55,7 @@ namespace Liyanjie.Modularization.Sample.AspNet
             this.UseModularization(services.BuildServiceProvider());
             #endregion
             #region Static
-            this.UseModularization();
+            //this.UseModularization();
             #endregion
         }
     }

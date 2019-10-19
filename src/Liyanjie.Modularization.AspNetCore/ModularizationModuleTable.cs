@@ -12,7 +12,7 @@ namespace Liyanjie.Modularization.AspNetCore
     public sealed class ModularizationModuleTable
     {
         readonly IServiceCollection services;
-        readonly IList<Type> moduleTypes = new List<Type>();
+        readonly List<Type> moduleTypes = new List<Type>();
 
         /// <summary>
         /// 
@@ -26,7 +26,7 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <summary>
         /// 
         /// </summary>
-        public IReadOnlyCollection<Type> ModuleTypes => new ReadOnlyCollection<Type>(moduleTypes);
+        public IReadOnlyCollection<Type> ModuleTypes => moduleTypes;
 
         /// <summary>
         /// 
