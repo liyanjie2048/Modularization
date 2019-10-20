@@ -49,7 +49,19 @@ namespace Liyanjie.Modularization.AspNet
                 {
                     if (await _module.TryMatchRequestingAsync(httpContext))
                     {
-                        await _module.HandleResponsingAsync(httpContext);
+                        var authorized = ModularizationDefaults.AuthorizeAsync == null
+                            ? true
+                            : await ModularizationDefaults.AuthorizeAsync.Invoke(httpContext, _module.Name);
+                        if (authorized)
+                        {
+                            await _module.HandleResponsingAsync(httpContext);
+                        }
+                        else
+                        {
+                            if (ModularizationDefaults.HandleUnauthorizeAsync != null)
+                                await ModularizationDefaults.HandleUnauthorizeAsync.Invoke(httpContext, _module.Name);
+                        }
+
                         httpContext.Response.End();
                     }
                 }

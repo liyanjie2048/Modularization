@@ -26,6 +26,21 @@ namespace Liyanjie.Modularization.AspNetCore
         }
 
         /// <summary>
+        /// (HttpContext,ModuleName)=>Task&lt;bool&gt;
+        /// </summary>
+        public static Func<HttpContext, string, Task<bool>> AuthorizeAsync { get; set; } = async (httpContext, moduleName) => await Task.FromResult(true);
+
+        /// <summary>
+        /// (HttpContext,ModuleName)=>Task
+        /// </summary>
+        public static Func<HttpContext, string, Task> HandleUnauthorizeAsync { get; set; } = async (httpContext, moduleName) =>
+        {
+            httpContext.Response.Clear();
+            httpContext.Response.StatusCode = 403;
+            await Task.FromResult(0);
+        };
+
+        /// <summary>
         /// 
         /// </summary>
         public static Func<HttpResponse, object, Task> SerializeToResponseAsync { get; set; }

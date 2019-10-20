@@ -12,6 +12,11 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <summary>
         /// 
         /// </summary>
+        string Name { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="httpContext"></param>
         /// <returns></returns>
         Task<bool> TryMatchRequestingAsync(HttpContext httpContext);

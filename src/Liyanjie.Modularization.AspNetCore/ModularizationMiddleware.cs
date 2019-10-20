@@ -43,7 +43,18 @@ namespace Liyanjie.Modularization.AspNetCore
                 {
                     if (await module.TryMatchRequestingAsync(httpContext))
                     {
-                        await module.HandleResponsingAsync(httpContext);
+                        var authorized = ModularizationDefaults.AuthorizeAsync == null
+                            ? true
+                            : await ModularizationDefaults.AuthorizeAsync.Invoke(httpContext, module.Name);
+                        if (authorized)
+                        {
+                            await module.HandleResponsingAsync(httpContext);
+                        }
+                        else
+                        {
+                            if (ModularizationDefaults.HandleUnauthorizeAsync != null)
+                                await ModularizationDefaults.HandleUnauthorizeAsync.Invoke(httpContext, module.Name);
+                        }
                         return;
                     }
                 }
