@@ -26,6 +26,7 @@ namespace Liyanjie.Modularization.Sample.AspNetCore
                 response.ContentType = "application/json";
                 await response.WriteAsync(JsonConvert.SerializeObject(content));
             }
+
             services.AddModularization(deserializeFromRequest, serializeToResponse)
                 //.AddModule<TModule,TModuleOptions>()
                 ;

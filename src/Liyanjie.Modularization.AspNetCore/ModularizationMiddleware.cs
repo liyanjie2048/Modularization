@@ -10,24 +10,20 @@ namespace Liyanjie.Modularization.AspNetCore
     /// 
     /// </summary>
     public class ModularizationMiddleware
+#if NETSTANDARD2_0
+        : IMiddleware
+#endif
     {
+#if !NETSTANDARD2_0
         readonly RequestDelegate next;
-        readonly IServiceProvider serviceProvider;
-        readonly ModularizationModuleTable moduleTable;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="next"></param>
-        /// <param name="serviceProvider"></param>
-        public ModularizationMiddleware(
-            RequestDelegate next,
-            IServiceProvider serviceProvider)
+        public ModularizationMiddleware(RequestDelegate next)
         {
             this.next = next ?? throw new ArgumentNullException(nameof(next));
-            this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-
-            this.moduleTable = serviceProvider.GetRequiredService<ModularizationModuleTable>();
         }
 
         /// <summary>
@@ -37,9 +33,23 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <returns></returns>
         public async Task Invoke(HttpContext httpContext)
         {
+            await InvokeAsync(httpContext, next);
+        }
+#endif
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <param name="next"></param>
+        /// <returns></returns>
+        public async Task InvokeAsync(HttpContext httpContext, RequestDelegate next)
+        {
+            var moduleTable = httpContext.RequestServices.GetRequiredService<ModularizationModuleTable>();
+
             foreach (var moduleType in moduleTable.ModuleTypes)
             {
-                if (ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, moduleType) is IModularizationModule module)
+                if (ActivatorUtilities.GetServiceOrCreateInstance(httpContext.RequestServices, moduleType) is IModularizationModule module)
                 {
                     if (await module.TryMatchRequestingAsync(httpContext))
                     {

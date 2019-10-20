@@ -28,6 +28,9 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var moduleTable = new ModularizationModuleTable(services);
             services.AddSingleton(moduleTable);
+#if NETSTANDARD2_0
+            services.AddSingleton<ModularizationMiddleware>();
+#endif
 
             return moduleTable;
         }
