@@ -50,10 +50,12 @@ namespace Liyanjie.Modularization.AspNet
                     if (templateMatcher.TryMatch(httpContext.Request.Path, routeValues))
                     {
                         var _middleware = serviceProvider == null
-                            ? Activator.CreateInstance(middleware.Value)
+                            ? moduleTable.ModuleOptions.TryGetValue(module.Key, out var moduleOptions)
+                                ? Activator.CreateInstance(middleware.Value, moduleOptions)
+                                : Activator.CreateInstance(middleware.Value)
                             : serviceProvider.GetServiceOrCreateInstance(middleware.Value);
 
-                        await (middleware.Value.GetMethod("HandleAsync").Invoke(_middleware, new[] { httpContext }) as Task);
+                        await (middleware.Value.GetMethod("HandleAsync").Invoke(_middleware, new object[] { httpContext, routeValues }) as Task);
                     }
                 }
             }

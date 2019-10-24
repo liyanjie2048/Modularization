@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static ModularizationModuleTable AddModularization(this IServiceCollection services)
         {
-            var moduleTable = new ModularizationModuleTable();
+            var moduleTable = new ModularizationModuleTable(services);
             services.AddSingleton(moduleTable);
 
             return moduleTable;

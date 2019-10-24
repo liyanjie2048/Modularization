@@ -15,11 +15,12 @@ namespace System.Web
         /// <param name="app"></param>
         /// <param name="serviceRegister"></param>
         /// <returns></returns>
-        public static ModularizationModuleTable AddModularization(this HttpApplication app, Action<object, string> serviceRegister)
+        public static ModularizationModuleTable AddModularization(this HttpApplication app,
+            Action<object, string> serviceRegister)
         {
 
-            var moduleTable = new ModularizationModuleTable();
-            serviceRegister(moduleTable, "Singleton");
+            var moduleTable = new ModularizationModuleTable(serviceRegister);
+            serviceRegister.Invoke(moduleTable, "Singleton");
 
             return moduleTable;
         }
@@ -30,7 +31,8 @@ namespace System.Web
         /// <param name="app"></param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static HttpApplication UseModularization(this HttpApplication app, IServiceProvider serviceProvider)
+        public static HttpApplication UseModularization(this HttpApplication app,
+            IServiceProvider serviceProvider)
         {
             new ModularizationMiddleware(serviceProvider).Invoke(app.Context).Wait();
 
