@@ -11,7 +11,7 @@ namespace Liyanjie.Modularization.AspNetCore
     public sealed class ModularizationModuleTable
     {
         readonly IServiceCollection services;
-        readonly Dictionary<string, IDictionary<string, Type>> modules = new Dictionary<string, IDictionary<string, Type>>();
+        readonly Dictionary<string, ModularizationModuleMiddleware[]> modules = new Dictionary<string, ModularizationModuleMiddleware[]>();
 
         /// <summary>
         /// 
@@ -25,7 +25,12 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <summary>
         /// 
         /// </summary>
-        public IReadOnlyDictionary<string, IDictionary<string, Type>> Modules => modules;
+        public IServiceCollection Services => services;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public IReadOnlyDictionary<string, ModularizationModuleMiddleware[]> Modules => modules;
 
         /// <summary>
         /// 
@@ -36,7 +41,7 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <returns></returns>
         public ModularizationModuleTable AddModule<TModuleOptions>(
             string moduleName,
-            IDictionary<string, Type> moduleMiddlewares,
+            ModularizationModuleMiddleware[] moduleMiddlewares,
             Action<TModuleOptions> configureModuleOptions = null)
             where TModuleOptions : class
         {

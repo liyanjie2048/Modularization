@@ -8,23 +8,43 @@ namespace Liyanjie.Modularization.AspNet
     /// </summary>
     public sealed class ModularizationModuleTable
     {
-        readonly Action<object, string> serviceRegister;
-        readonly Dictionary<string, IDictionary<string, Type>> modules = new Dictionary<string, IDictionary<string, Type>>();
+        readonly Action<Type, string> registerServiceType;
+        readonly Action<object, string> registerServiceInstance;
+        readonly Dictionary<string, ModularizationModuleMiddleware[]> modules = new Dictionary<string, ModularizationModuleMiddleware[]>();
         readonly Dictionary<string, object> moduleOptions = new Dictionary<string, object>();
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="serviceRegister"></param>
-        public ModularizationModuleTable(Action<object, string> serviceRegister = null)
+        public ModularizationModuleTable() { }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="registerServiceType"></param>
+        /// <param name="registerServiceInstance"></param>
+        public ModularizationModuleTable(
+            Action<Type, string> registerServiceType, 
+            Action<object, string> registerServiceInstance)
         {
-            this.serviceRegister = serviceRegister;
+            this.registerServiceType = registerServiceType;
+            this.registerServiceInstance = registerServiceInstance;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public IReadOnlyDictionary<string, IDictionary<string, Type>> Modules => modules;
+        public Action<Type, string> RegisterServiceType => registerServiceType;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Action<object, string> RegisterServiceInstance => registerServiceInstance;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public IReadOnlyDictionary<string, ModularizationModuleMiddleware[]> Modules => modules;
 
         /// <summary>
         /// 
@@ -40,7 +60,7 @@ namespace Liyanjie.Modularization.AspNet
         /// <returns></returns>
         public ModularizationModuleTable AddModule<TModuleOptions>(
             string moduleName,
-            IDictionary<string, Type> moduleMiddlewares,
+            ModularizationModuleMiddleware[] moduleMiddlewares,
             Action<TModuleOptions> configureModuleOptions = null)
             where TModuleOptions : class, new()
         {
@@ -50,8 +70,8 @@ namespace Liyanjie.Modularization.AspNet
                 var options = new TModuleOptions();
                 configureModuleOptions.Invoke(options);
 
-                if (serviceRegister != null)
-                    serviceRegister.Invoke(options, "Singleton");
+                if (registerServiceInstance != null)
+                    registerServiceInstance.Invoke(options, "Singleton");
                 else
                     moduleOptions[moduleName] = options;
             }

@@ -1,4 +1,7 @@
-﻿using Liyanjie.Modularization.AspNetCore;
+﻿using System;
+using System.Linq;
+
+using Liyanjie.Modularization.AspNetCore;
 
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Template;
@@ -26,10 +29,16 @@ namespace Microsoft.AspNetCore.Builder
                 {
                     app.MapWhen(httpContext =>
                     {
-                        var routeValues = new RouteValueDictionary();
-                        var templateMatcher = new TemplateMatcher(TemplateParser.Parse(middleware.Key), routeValues);
-                        return templateMatcher.TryMatch(httpContext.Request.Path, routeValues);
-                    }, _app => _app.UseMiddleware(middleware.Value));
+                        if (false
+                            || middleware.HttpMethods == null
+                            || middleware.HttpMethods.Contains(httpContext.Request.Method))
+                        {
+                            var routeValues = new RouteValueDictionary();
+                            var templateMatcher = new TemplateMatcher(TemplateParser.Parse(middleware.RouteTemplate), routeValues);
+                            return templateMatcher.TryMatch(httpContext.Request.Path, routeValues);
+                        }
+                        return false;
+                    }, _app => _app.UseMiddleware(middleware.Type));
                 }
             }
 

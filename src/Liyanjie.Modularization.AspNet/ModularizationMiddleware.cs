@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
@@ -46,25 +47,30 @@ namespace Liyanjie.Modularization.AspNet
             {
                 foreach (var middleware in module.Value)
                 {
-                    var routeValues = new RouteValueDictionary();
-                    var templateMatcher = new TemplateMatcher(TemplateParser.Parse(middleware.Key), routeValues);
-                    if (templateMatcher.TryMatch(httpContext.Request.Path, routeValues))
+                    if (false
+                        || middleware.HttpMethods == null
+                        || middleware.HttpMethods.Contains(httpContext.Request.HttpMethod))
                     {
-                        var _middleware = serviceProvider == null
-                            ? moduleTable.ModuleOptions.TryGetValue(module.Key, out var moduleOptions)
-                                ? Activator.CreateInstance(middleware.Value, moduleOptions)
-                                : Activator.CreateInstance(middleware.Value)
-                            : serviceProvider.GetServiceOrCreateInstance(middleware.Value);
-
-                        var method = middleware.Value.GetMethod("HandleAsync", BindingFlags.Public | BindingFlags.Instance);
-                        var parameters = method.GetParameters();
-                        await (method.GetParameters().Length switch
+                        var routeValues = new RouteValueDictionary();
+                        var templateMatcher = new TemplateMatcher(TemplateParser.Parse(middleware.RouteTemplate), routeValues);
+                        if (templateMatcher.TryMatch(httpContext.Request.Path, routeValues))
                         {
-                            0 => method.Invoke(_middleware, null) as Task,
-                            1 => method.Invoke(_middleware, new[] { httpContext }) as Task,
-                            2 => method.Invoke(_middleware, new object[] { httpContext, routeValues }) as Task,
-                            _ => throw new NotSupportedException($"未找到匹配的 HandleAsync 方法"),
-                        });
+                            var _middleware = serviceProvider == null
+                                ? moduleTable.ModuleOptions.TryGetValue(module.Key, out var moduleOptions)
+                                    ? Activator.CreateInstance(middleware.Type, moduleOptions)
+                                    : Activator.CreateInstance(middleware.Type)
+                                : serviceProvider.GetServiceOrCreateInstance(middleware.Type);
+
+                            var method = middleware.Type.GetMethod("HandleAsync", BindingFlags.Public | BindingFlags.Instance);
+                            var parameters = method.GetParameters();
+                            await (method.GetParameters().Length switch
+                            {
+                                0 => method.Invoke(_middleware, null) as Task,
+                                1 => method.Invoke(_middleware, new[] { httpContext }) as Task,
+                                2 => method.Invoke(_middleware, new object[] { httpContext, routeValues }) as Task,
+                                _ => throw new NotSupportedException($"未找到匹配的 HandleAsync 方法"),
+                            });
+                        }
                     }
                 }
             }

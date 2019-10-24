@@ -1,4 +1,6 @@
 ﻿#if NETCOREAPP3_0
+using System;
+
 using Liyanjie.Modularization.AspNetCore;
 
 using Microsoft.AspNetCore.Routing;
@@ -24,8 +26,12 @@ namespace Microsoft.AspNetCore.Builder
             {
                 foreach (var middleware in module.Value)
                 {
-                    var pipeline = endpoints.CreateApplicationBuilder().UseMiddleware(middleware.Value).Build();
-                    endpoints.Map(middleware.Key, pipeline).WithDisplayName($"Modularization-{module.Key}-{middleware.Key}");
+                    var pipeline = endpoints.CreateApplicationBuilder().UseMiddleware(middleware.Type).Build();
+                    var displayName = $"Modularization-{module.Key}-{middleware.RouteTemplate}";
+                    if (middleware.HttpMethods == null)
+                        endpoints.Map(middleware.RouteTemplate, pipeline).WithDisplayName(displayName);
+                    else
+                        endpoints.MapMethods(middleware.RouteTemplate, middleware.HttpMethods, pipeline).WithDisplayName($"{displayName}-{string.Join('|', middleware.HttpMethods)}");
                 }
             }
 

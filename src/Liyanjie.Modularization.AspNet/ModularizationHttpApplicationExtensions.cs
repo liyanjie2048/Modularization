@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-using Liyanjie.Modularization.AspNet;
+﻿using Liyanjie.Modularization.AspNet;
 
 namespace System.Web
 {
@@ -13,14 +11,16 @@ namespace System.Web
         /// Add in Global.Application_Start.(Use DI)
         /// </summary>
         /// <param name="app"></param>
-        /// <param name="serviceRegister"></param>
+        /// <param name="registerServiceType"></param>
+        /// <param name="registerServiceInstance"></param>
         /// <returns></returns>
         public static ModularizationModuleTable AddModularization(this HttpApplication app,
-            Action<object, string> serviceRegister)
+            Action<Type, string> registerServiceType,
+            Action<object, string> registerServiceInstance)
         {
 
-            var moduleTable = new ModularizationModuleTable(serviceRegister);
-            serviceRegister.Invoke(moduleTable, "Singleton");
+            var moduleTable = new ModularizationModuleTable(registerServiceType, registerServiceInstance);
+            registerServiceInstance.Invoke(moduleTable, "Singleton");
 
             return moduleTable;
         }
