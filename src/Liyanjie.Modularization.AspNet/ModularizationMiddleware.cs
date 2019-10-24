@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Routing;
@@ -55,7 +56,15 @@ namespace Liyanjie.Modularization.AspNet
                                 : Activator.CreateInstance(middleware.Value)
                             : serviceProvider.GetServiceOrCreateInstance(middleware.Value);
 
-                        await (middleware.Value.GetMethod("HandleAsync").Invoke(_middleware, new object[] { httpContext, routeValues }) as Task);
+                        var method = middleware.Value.GetMethod("HandleAsync", BindingFlags.Public | BindingFlags.Instance);
+                        var parameters = method.GetParameters();
+                        await (method.GetParameters().Length switch
+                        {
+                            0 => method.Invoke(_middleware, null) as Task,
+                            1 => method.Invoke(_middleware, new[] { httpContext }) as Task,
+                            2 => method.Invoke(_middleware, new object[] { httpContext, routeValues }) as Task,
+                            _ => throw new NotSupportedException($"未找到匹配的 HandleAsync 方法"),
+                        });
                     }
                 }
             }
