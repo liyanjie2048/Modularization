@@ -1,7 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFrameworks>net451;netstandard1.6;netstandard2.0;</TargetFrameworks>
+        <OutputType>Library</OutputType>
+        <IsPackable>True</IsPackable>
+        <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
         <Description>Liyanjie.Modularization.AspNetCore</Description>
         <Copyright>© Liyanjie.me</Copyright>
         <Authors>liyanjie8712@outlook.com</Authors>
@@ -11,37 +13,22 @@
         <RepositoryType>Git</RepositoryType>
     </PropertyGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)'=='net451'">
-        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Routing" Version="1.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Options" Version="1.0.0" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
-        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Routing" Version="1.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Options" Version="1.0.0" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.0" />
-    </ItemGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net451|AnyCPU'">
-        <DocumentationFile>bin\Release\net451\Liyanjie.Modularization.AspNetCore.xml</DocumentationFile>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.0|AnyCPU'">
+        <DocumentationFile>bin\Release\netcoreapp3.0\Liyanjie.Modularization.AspNetCore.xml</DocumentationFile>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.6|AnyCPU'">
-        <DocumentationFile>bin\Release\netstandard1.6\Liyanjie.Modularization.AspNetCore.xml</DocumentationFile>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+        <DocumentationFile>bin\Release\netstandard2.0\Liyanjie.Modularization.AspNetCore.xml</DocumentationFile>
     </PropertyGroup>
 
     <Target Name="MovePackage" AfterTargets="Pack">
         <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_NugetPackages\" />
     </Target>
 
+    <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
+    </ItemGroup>
+    
 </Project>

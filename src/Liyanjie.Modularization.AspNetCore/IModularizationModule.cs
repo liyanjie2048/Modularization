@@ -1,6 +1,5 @@
-﻿using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Liyanjie.Modularization.AspNetCore
 {
@@ -17,14 +16,6 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="httpContext"></param>
-        /// <returns></returns>
-        Task<bool> TryMatchRequestingAsync(HttpContext httpContext);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="httpContext"></param>
-        Task HandleResponsingAsync(HttpContext httpContext);
+        IReadOnlyDictionary<string, Type> Middlewares { get; }
     }
 }

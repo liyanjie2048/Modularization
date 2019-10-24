@@ -1,5 +1,9 @@
 ﻿using Liyanjie.Modularization.AspNetCore;
 
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Routing.Template;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
@@ -14,7 +18,20 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns></returns>
         public static IApplicationBuilder UseModularization(this IApplicationBuilder app)
         {
-            app.UseMiddleware<ModularizationMiddleware>();
+            var moduleTable = app.ApplicationServices.GetService<ModularizationModuleTable>();
+
+            foreach (var module in moduleTable.Modules)
+            {
+                foreach (var middleware in module.Value)
+                {
+                    app.MapWhen(httpContext =>
+                    {
+                        var routeValues = new RouteValueDictionary();
+                        var templateMatcher = new TemplateMatcher(TemplateParser.Parse(middleware.Key), routeValues);
+                        return templateMatcher.TryMatch(httpContext.Request.Path, routeValues);
+                    }, _app => _app.UseMiddleware(middleware.Value));
+                }
+            }
 
             return app;
         }

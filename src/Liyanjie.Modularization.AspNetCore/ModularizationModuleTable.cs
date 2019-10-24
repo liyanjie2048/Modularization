@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Liyanjie.Modularization.AspNetCore
 {
@@ -11,51 +8,22 @@ namespace Liyanjie.Modularization.AspNetCore
     /// </summary>
     public sealed class ModularizationModuleTable
     {
-        readonly IServiceCollection services;
-        readonly List<Type> moduleTypes = new List<Type>();
+        readonly Dictionary<string, IDictionary<string, Type>> modules = new Dictionary<string, IDictionary<string, Type>>();
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="services"></param>
-        public ModularizationModuleTable(IServiceCollection services)
-        {
-            this.services = services ?? throw new ArgumentNullException(nameof(services));
-        }
+        public IReadOnlyDictionary<string, IDictionary<string, Type>> Modules => modules;
 
         /// <summary>
         /// 
         /// </summary>
-        public IReadOnlyCollection<Type> ModuleTypes => moduleTypes;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TModule"></typeparam>
+        /// <param name="name"></param>
+        /// <param name="middlewares"></param>
         /// <returns></returns>
-        public ModularizationModuleTable AddModule<TModule>()
-            where TModule : class, IModularizationModule
+        public ModularizationModuleTable AddModule(string name, IDictionary<string, Type> middlewares)
         {
-            AddModule<TModule, object>(null);
-
-            return this;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TModule"></typeparam>
-        /// <typeparam name="TModuleOptions"></typeparam>
-        /// <param name="configureOptions"></param>
-        /// <returns></returns>
-        public ModularizationModuleTable AddModule<TModule, TModuleOptions>(Action<TModuleOptions> configureOptions)
-            where TModule : class, IModularizationModule
-            where TModuleOptions : class
-        {
-            if (configureOptions != null)
-                services.Configure(configureOptions);
-
-            moduleTypes.Add(typeof(TModule));
+            modules[name] = middlewares;
 
             return this;
         }

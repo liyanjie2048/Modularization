@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Routing;
+
+using Liyanjie.TemplateMatching;
 
 namespace Liyanjie.Modularization.AspNet
 {
@@ -38,31 +41,19 @@ namespace Liyanjie.Modularization.AspNet
         /// <returns></returns>
         public async Task Invoke(HttpContext httpContext)
         {
-            foreach (var moduleType in moduleTable.ModuleTypes)
+            foreach (var module in moduleTable.Modules)
             {
-                var module = serviceProvider == null
-                    ? moduleTable.TryGetOptions(moduleType, out var options)
-                        ? Activator.CreateInstance(moduleType, options)
-                        : Activator.CreateInstance(moduleType)
-                    : serviceProvider.GetServiceOrCreateInstance(moduleType);
-                if (module is IModularizationModule _module)
+                foreach (var middleware in module.Value)
                 {
-                    if (await _module.TryMatchRequestingAsync(httpContext))
+                    var routeValues = new RouteValueDictionary();
+                    var templateMatcher = new TemplateMatcher(TemplateParser.Parse(middleware.Key), routeValues);
+                    if (templateMatcher.TryMatch(httpContext.Request.Path, routeValues))
                     {
-                        var authorized = ModularizationDefaults.AuthorizeAsync == null
-                            ? true
-                            : await ModularizationDefaults.AuthorizeAsync.Invoke(httpContext, _module.Name);
-                        if (authorized)
-                        {
-                            await _module.HandleResponsingAsync(httpContext);
-                        }
-                        else
-                        {
-                            if (ModularizationDefaults.HandleUnauthorizeAsync != null)
-                                await ModularizationDefaults.HandleUnauthorizeAsync.Invoke(httpContext, _module.Name);
-                        }
+                        var _middleware = serviceProvider == null
+                            ? Activator.CreateInstance(middleware.Value)
+                            : serviceProvider.GetServiceOrCreateInstance(middleware.Value);
 
-                        httpContext.Response.End();
+                        await (middleware.Value.GetMethod("HandleAsync").Invoke(_middleware, new[] { httpContext }) as Task);
                     }
                 }
             }

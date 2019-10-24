@@ -14,18 +14,11 @@ namespace System.Web
         /// </summary>
         /// <param name="app"></param>
         /// <param name="serviceRegister"></param>
-        /// <param name="deserializeFromRequest"></param>
-        /// <param name="serializeToResponse"></param>
         /// <returns></returns>
-        public static ModularizationModuleTable AddModularization(this HttpApplication app,
-            Action<object, string> serviceRegister,
-            Func<HttpRequest, Type, Task<object>> deserializeFromRequest,
-            Func<HttpResponse, object, Task> serializeToResponse)
+        public static ModularizationModuleTable AddModularization(this HttpApplication app, Action<object, string> serviceRegister)
         {
-            ModularizationDefaults.DeserializeFromRequestAsync = deserializeFromRequest ?? throw new ArgumentNullException(nameof(deserializeFromRequest));
-            ModularizationDefaults.SerializeToResponseAsync = serializeToResponse ?? throw new ArgumentNullException(nameof(serializeToResponse));
 
-            var moduleTable = new ModularizationModuleTable(serviceRegister);
+            var moduleTable = new ModularizationModuleTable();
             serviceRegister(moduleTable, "Singleton");
 
             return moduleTable;
@@ -37,8 +30,7 @@ namespace System.Web
         /// <param name="app"></param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static HttpApplication UseModularization(this HttpApplication app,
-            IServiceProvider serviceProvider)
+        public static HttpApplication UseModularization(this HttpApplication app, IServiceProvider serviceProvider)
         {
             new ModularizationMiddleware(serviceProvider).Invoke(app.Context).Wait();
 
@@ -53,17 +45,10 @@ namespace System.Web
         /// Add in Global.Application_Start.(Static ModuleTable)
         /// </summary>
         /// <param name="app"></param>
-        /// <param name="deserializeFromRequest"></param>
-        /// <param name="serializeToResponse"></param>
         /// <returns></returns>
-        public static ModularizationModuleTable AddModularization(this HttpApplication app,
-            Func<HttpRequest, Type, Task<object>> deserializeFromRequest,
-            Func<HttpResponse, object, Task> serializeToResponse)
+        public static ModularizationModuleTable AddModularization(this HttpApplication app)
         {
-            ModularizationDefaults.DeserializeFromRequestAsync = deserializeFromRequest ?? throw new ArgumentNullException(nameof(deserializeFromRequest));
-            ModularizationDefaults.SerializeToResponseAsync = serializeToResponse ?? throw new ArgumentNullException(nameof(serializeToResponse));
-
-            moduleTable = new ModularizationModuleTable(null);
+            moduleTable = new ModularizationModuleTable();
 
             return moduleTable;
         }

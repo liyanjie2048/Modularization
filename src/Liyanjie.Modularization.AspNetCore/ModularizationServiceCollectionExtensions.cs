@@ -16,21 +16,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="deserializeFromRequest"></param>
-        /// <param name="serializeToResponse"></param>
         /// <returns></returns>
-        public static ModularizationModuleTable AddModularization(this IServiceCollection services,
-            Func<HttpRequest, Type, Task<object>> deserializeFromRequest,
-            Func<HttpResponse, object, Task> serializeToResponse)
+        public static ModularizationModuleTable AddModularization(this IServiceCollection services)
         {
-            ModularizationDefaults.DeserializeFromRequestAsync = deserializeFromRequest ?? throw new ArgumentNullException(nameof(deserializeFromRequest));
-            ModularizationDefaults.SerializeToResponseAsync = serializeToResponse ?? throw new ArgumentNullException(nameof(serializeToResponse));
-
-            var moduleTable = new ModularizationModuleTable(services);
+            var moduleTable = new ModularizationModuleTable();
             services.AddSingleton(moduleTable);
-#if NETSTANDARD2_0
-            services.AddSingleton<ModularizationMiddleware>();
-#endif
 
             return moduleTable;
         }
