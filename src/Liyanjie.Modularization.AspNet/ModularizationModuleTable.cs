@@ -9,7 +9,7 @@ namespace Liyanjie.Modularization.AspNet
     public sealed class ModularizationModuleTable
     {
         readonly Action<Type, string> registerServiceType;
-        readonly Action<object, string> registerServiceInstance;
+        readonly Action<Func<IServiceProvider, object>, string> registerServiceInstance;
         readonly Dictionary<string, ModularizationModuleMiddleware[]> modules = new Dictionary<string, ModularizationModuleMiddleware[]>();
         readonly Dictionary<string, object> moduleOptions = new Dictionary<string, object>();
 
@@ -24,8 +24,8 @@ namespace Liyanjie.Modularization.AspNet
         /// <param name="registerServiceType"></param>
         /// <param name="registerServiceInstance"></param>
         public ModularizationModuleTable(
-            Action<Type, string> registerServiceType, 
-            Action<object, string> registerServiceInstance)
+            Action<Type, string> registerServiceType,
+            Action<Func<IServiceProvider, object>, string> registerServiceInstance)
         {
             this.registerServiceType = registerServiceType;
             this.registerServiceInstance = registerServiceInstance;
@@ -39,7 +39,7 @@ namespace Liyanjie.Modularization.AspNet
         /// <summary>
         /// 
         /// </summary>
-        public Action<object, string> RegisterServiceInstance => registerServiceInstance;
+        public Action<Func<IServiceProvider, object>, string> RegisterServiceInstance => registerServiceInstance;
 
         /// <summary>
         /// 
@@ -71,7 +71,7 @@ namespace Liyanjie.Modularization.AspNet
                 configureModuleOptions.Invoke(options);
 
                 if (registerServiceInstance != null)
-                    registerServiceInstance.Invoke(options, "Singleton");
+                    registerServiceInstance.Invoke(sp => options, "Singleton");
                 else
                     moduleOptions[moduleName] = options;
             }

@@ -16,11 +16,12 @@ namespace System.Web
         /// <returns></returns>
         public static ModularizationModuleTable AddModularization(this HttpApplication app,
             Action<Type, string> registerServiceType,
-            Action<object, string> registerServiceInstance)
+            Action<Func<IServiceProvider, object>, string> registerServiceInstance)
         {
 
             var moduleTable = new ModularizationModuleTable(registerServiceType, registerServiceInstance);
-            registerServiceInstance.Invoke(moduleTable, "Singleton");
+            registerServiceInstance.Invoke(sp => moduleTable, "Singleton");
+            registerServiceInstance.Invoke(serviceProvider => new ModularizationMiddleware(serviceProvider), "Singleton");
 
             return moduleTable;
         }
@@ -34,7 +35,9 @@ namespace System.Web
         public static HttpApplication UseModularization(this HttpApplication app,
             IServiceProvider serviceProvider)
         {
-            new ModularizationMiddleware(serviceProvider).Invoke(app.Context).Wait();
+            (serviceProvider.GetService(typeof(ModularizationMiddleware)) as ModularizationMiddleware)
+                ?.InvokeAsync(app.Context)
+                ?.Wait();
 
             return app;
         }
@@ -42,27 +45,29 @@ namespace System.Web
         #region Static ModuleTable Mode
 
         static ModularizationModuleTable moduleTable;
+        static ModularizationMiddleware middleware;
 
         /// <summary>
-        /// Add in Global.Application_Start.(Static ModuleTable)
+        /// Add in Global.Application_Start (Static Mode)
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
         public static ModularizationModuleTable AddModularization(this HttpApplication app)
         {
             moduleTable = new ModularizationModuleTable();
+            middleware = new ModularizationMiddleware(moduleTable);
 
             return moduleTable;
         }
 
         /// <summary>
-        /// Add in Global.Application_BeginRequest.(Static ModuleTable)
+        /// Add in Global.Application_BeginRequest (Static Mode)
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
         public static HttpApplication UseModularization(this HttpApplication app)
         {
-            new ModularizationMiddleware(moduleTable).Invoke(app.Context).Wait();
+            middleware.InvokeAsync(app.Context).Wait();
 
             return app;
         }

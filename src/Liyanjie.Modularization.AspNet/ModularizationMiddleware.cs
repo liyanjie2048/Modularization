@@ -41,7 +41,7 @@ namespace Liyanjie.Modularization.AspNet
         /// </summary>
         /// <param name="httpContext"></param>
         /// <returns></returns>
-        public async Task Invoke(HttpContext httpContext)
+        public async Task InvokeAsync(HttpContext httpContext)
         {
             foreach (var module in moduleTable.Modules)
             {
@@ -70,6 +70,8 @@ namespace Liyanjie.Modularization.AspNet
                                 2 => method.Invoke(_middleware, new object[] { httpContext, routeValues }) as Task,
                                 _ => throw new NotSupportedException($"未找到匹配的 HandleAsync 方法"),
                             });
+                            
+                            return;
                         }
                     }
                 }
