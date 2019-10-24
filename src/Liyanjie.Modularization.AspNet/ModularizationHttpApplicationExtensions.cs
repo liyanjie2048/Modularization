@@ -8,7 +8,7 @@ namespace System.Web
     public static class ModularizationHttpApplicationExtensions
     {
         /// <summary>
-        /// Add in Global.Application_Start.(Use DI)
+        /// Add in Global.Application_Start (Use DI)
         /// </summary>
         /// <param name="app"></param>
         /// <param name="registerServiceType"></param>
@@ -27,7 +27,7 @@ namespace System.Web
         }
 
         /// <summary>
-        /// Add in Global.Application_BeginRequest.(Use DI)
+        /// Add in Global.Application_BeginRequest (Use DI)
         /// </summary>
         /// <param name="app"></param>
         /// <param name="serviceProvider"></param>
