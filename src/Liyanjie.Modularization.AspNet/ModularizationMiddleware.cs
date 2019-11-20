@@ -57,12 +57,11 @@ namespace Liyanjie.Modularization.AspNet
                         {
                             var _middleware = serviceProvider == null
                                 ? moduleTable.ModuleOptions.TryGetValue(module.Key, out var moduleOptions)
-                                    ? Activator.CreateInstance(middleware.Type, moduleOptions)
-                                    : Activator.CreateInstance(middleware.Type)
-                                : serviceProvider.GetServiceOrCreateInstance(middleware.Type);
+                                    ? Activator.CreateInstance(middleware.HandlerType, moduleOptions)
+                                    : Activator.CreateInstance(middleware.HandlerType)
+                                : serviceProvider.GetServiceOrCreateInstance(middleware.HandlerType);
 
-                            var method = middleware.Type.GetMethod("HandleAsync", BindingFlags.Public | BindingFlags.Instance);
-                            var parameters = method.GetParameters();
+                            var method = middleware.HandlerType.GetMethod("HandleAsync", BindingFlags.Public | BindingFlags.Instance);
                             await (method.GetParameters().Length switch
                             {
                                 0 => method.Invoke(_middleware, null) as Task,

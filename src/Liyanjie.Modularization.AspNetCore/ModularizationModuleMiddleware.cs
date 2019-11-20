@@ -20,6 +20,6 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <summary>
         /// 
         /// </summary>
-        public Type Type { get; set; }
+        public Type HandlerType { get; set; }
     }
 }

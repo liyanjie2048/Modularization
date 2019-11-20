@@ -38,7 +38,7 @@ namespace Microsoft.AspNetCore.Builder
                             return templateMatcher.TryMatch(httpContext.Request.Path, routeValues);
                         }
                         return false;
-                    }, _app => _app.UseMiddleware(middleware.Type));
+                    }, _app => _app.UseMiddleware(middleware.HandlerType));
                 }
             }
 

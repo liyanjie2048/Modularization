@@ -26,7 +26,7 @@ namespace Microsoft.AspNetCore.Builder
             {
                 foreach (var middleware in module.Value)
                 {
-                    var pipeline = endpoints.CreateApplicationBuilder().UseMiddleware(middleware.Type).Build();
+                    var pipeline = endpoints.CreateApplicationBuilder().UseMiddleware(middleware.HandlerType).Build();
                     var displayName = $"Modularization-{module.Key}-{middleware.RouteTemplate}";
                     if (middleware.HttpMethods == null)
                         endpoints.Map(middleware.RouteTemplate, pipeline).WithDisplayName(displayName);
