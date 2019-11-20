@@ -9,7 +9,7 @@ namespace Liyanjie.Modularization.AspNet
     public sealed class ModularizationModuleTable
     {
         readonly Action<Type, string> registerServiceType;
-        readonly Action<Func<IServiceProvider, object>, string> registerServiceInstance;
+        readonly Action<Type, Func<IServiceProvider, object>, string> registerServiceImplementationFactory;
         readonly Dictionary<string, ModularizationModuleMiddleware[]> modules = new Dictionary<string, ModularizationModuleMiddleware[]>();
         readonly Dictionary<string, object> moduleOptions = new Dictionary<string, object>();
 
@@ -22,13 +22,13 @@ namespace Liyanjie.Modularization.AspNet
         /// 
         /// </summary>
         /// <param name="registerServiceType"></param>
-        /// <param name="registerServiceInstance"></param>
+        /// <param name="registerServiceImplementationFactory"></param>
         public ModularizationModuleTable(
             Action<Type, string> registerServiceType,
-            Action<Func<IServiceProvider, object>, string> registerServiceInstance)
+            Action<Type, Func<IServiceProvider, object>, string> registerServiceImplementationFactory)
         {
             this.registerServiceType = registerServiceType;
-            this.registerServiceInstance = registerServiceInstance;
+            this.registerServiceImplementationFactory = registerServiceImplementationFactory;
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Liyanjie.Modularization.AspNet
         /// <summary>
         /// 
         /// </summary>
-        public Action<Func<IServiceProvider, object>, string> RegisterServiceInstance => registerServiceInstance;
+        public Action<Type, Func<IServiceProvider, object>, string> RegisterServiceImplementationFactory => registerServiceImplementationFactory;
 
         /// <summary>
         /// 
@@ -70,8 +70,8 @@ namespace Liyanjie.Modularization.AspNet
                 var options = new TModuleOptions();
                 configureModuleOptions.Invoke(options);
 
-                if (registerServiceInstance != null)
-                    registerServiceInstance.Invoke(sp => options, "Singleton");
+                if (RegisterServiceImplementationFactory != null)
+                    RegisterServiceImplementationFactory.Invoke(typeof(TModuleOptions), sp => options, "Singleton");
                 else
                     moduleOptions[moduleName] = options;
             }

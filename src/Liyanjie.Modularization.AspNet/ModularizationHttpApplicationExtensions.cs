@@ -12,16 +12,15 @@ namespace System.Web
         /// </summary>
         /// <param name="app"></param>
         /// <param name="registerServiceType"></param>
-        /// <param name="registerServiceInstance"></param>
+        /// <param name="registerServiceImplementationFactory"></param>
         /// <returns></returns>
         public static ModularizationModuleTable AddModularization(this HttpApplication app,
             Action<Type, string> registerServiceType,
-            Action<Func<IServiceProvider, object>, string> registerServiceInstance)
+            Action<Type, Func<IServiceProvider, object>, string> registerServiceImplementationFactory)
         {
-
-            var moduleTable = new ModularizationModuleTable(registerServiceType, registerServiceInstance);
-            registerServiceInstance.Invoke(sp => moduleTable, "Singleton");
-            registerServiceInstance.Invoke(serviceProvider => new ModularizationMiddleware(serviceProvider), "Singleton");
+            var moduleTable = new ModularizationModuleTable(registerServiceType, registerServiceImplementationFactory);
+            registerServiceImplementationFactory.Invoke(typeof(ModularizationModuleTable), serviceProvider => moduleTable, "Singleton");
+            registerServiceImplementationFactory.Invoke(typeof(ModularizationMiddleware), serviceProvider => new ModularizationMiddleware(serviceProvider), "Singleton");
 
             return moduleTable;
         }
@@ -35,7 +34,8 @@ namespace System.Web
         public static HttpApplication UseModularization(this HttpApplication app,
             IServiceProvider serviceProvider)
         {
-            (serviceProvider.GetService(typeof(ModularizationMiddleware)) as ModularizationMiddleware)
+            var middleware = serviceProvider.GetService(typeof(ModularizationMiddleware));
+            (middleware as ModularizationMiddleware)
                 ?.InvokeAsync(app.Context)
                 ?.Wait();
 
