@@ -23,15 +23,15 @@ namespace Liyanjie.Modularization.Sample.AspNet
                     "transient" => services.AddTransient(type),
                     _ => services,
                 };
-            static void registerServiceInstance(object instance, string lifeTime)
+            static void registerServiceImplementationFactory(Type type, Func<IServiceProvider, object> implementationFactory, string lifeTime)
                 => _ = lifeTime.ToLower() switch
                 {
-                    "singleton" => services.AddSingleton(instance.GetType(), sp => instance),
-                    "scoped" => services.AddScoped(instance.GetType(), sp => instance),
-                    "transient" => services.AddTransient(instance.GetType(), sp => instance),
+                    "singleton" => services.AddSingleton(type, implementationFactory),
+                    "scoped" => services.AddScoped(type, implementationFactory),
+                    "transient" => services.AddTransient(type, implementationFactory),
                     _ => services,
                 };
-            this.AddModularization(registerServiceType, registerServiceInstance)
+            this.AddModularization(registerServiceType, registerServiceImplementationFactory)
                 //.AddModule<TModule,TModuleOptions>()
                 ;
             #endregion
