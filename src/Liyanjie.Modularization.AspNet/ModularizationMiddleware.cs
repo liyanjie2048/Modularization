@@ -61,13 +61,13 @@ namespace Liyanjie.Modularization.AspNet
                                     : Activator.CreateInstance(middleware.HandlerType)
                                 : serviceProvider.GetServiceOrCreateInstance(middleware.HandlerType);
 
-                            var method = middleware.HandlerType.GetMethod("HandleAsync", BindingFlags.Public | BindingFlags.Instance);
-                            await (method.GetParameters().Length switch
+                            var method = middleware.HandlerType.GetMethod("InvokeAsync", BindingFlags.Public | BindingFlags.Instance);
+                            await (method?.GetParameters().Length switch
                             {
                                 0 => method.Invoke(_middleware, null) as Task,
                                 1 => method.Invoke(_middleware, new[] { httpContext }) as Task,
                                 2 => method.Invoke(_middleware, new object[] { httpContext, routeValues }) as Task,
-                                _ => throw new NotSupportedException($"未找到匹配的 HandleAsync 方法"),
+                                _ => throw new NotSupportedException($"未找到匹配的 InvokeAsync 方法"),
                             });
                             
                             return;

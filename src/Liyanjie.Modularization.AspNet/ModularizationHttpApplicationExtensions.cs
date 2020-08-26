@@ -34,10 +34,8 @@ namespace System.Web
         public static HttpApplication UseModularization(this HttpApplication app,
             IServiceProvider serviceProvider)
         {
-            var middleware = serviceProvider.GetService(typeof(ModularizationMiddleware));
-            (middleware as ModularizationMiddleware)
-                ?.InvokeAsync(app.Context)
-                ?.Wait();
+            var middleware = serviceProvider.GetService(typeof(ModularizationMiddleware)) as ModularizationMiddleware;
+            middleware?.InvokeAsync(app.Context)?.Wait();
 
             return app;
         }

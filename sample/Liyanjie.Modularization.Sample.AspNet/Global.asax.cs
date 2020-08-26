@@ -15,7 +15,9 @@ namespace Liyanjie.Modularization.Sample.AspNet
         protected void Application_Start(object sender, EventArgs e)
         {
             #region Use DI
-            static void registerServiceType(Type type, string lifeTime)
+            static void registerServiceType(
+                Type type,
+                string lifeTime)
                 => _ = lifeTime.ToLower() switch
                 {
                     "singleton" => services.AddSingleton(type),
@@ -23,12 +25,15 @@ namespace Liyanjie.Modularization.Sample.AspNet
                     "transient" => services.AddTransient(type),
                     _ => services,
                 };
-            static void registerServiceInstance(object instance, string lifeTime)
+            static void registerServiceInstance(
+                Type type, 
+                Func<IServiceProvider, object> registerServiceImplementationFactory,
+                string lifeTime)
                 => _ = lifeTime.ToLower() switch
                 {
-                    "singleton" => services.AddSingleton(instance.GetType(), sp => instance),
-                    "scoped" => services.AddScoped(instance.GetType(), sp => instance),
-                    "transient" => services.AddTransient(instance.GetType(), sp => instance),
+                    "singleton" => services.AddSingleton(type, registerServiceImplementationFactory),
+                    "scoped" => services.AddScoped(type, registerServiceImplementationFactory),
+                    "transient" => services.AddTransient(type, registerServiceImplementationFactory),
                     _ => services,
                 };
             this.AddModularization(registerServiceType, registerServiceInstance)
