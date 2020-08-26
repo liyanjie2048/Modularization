@@ -36,7 +36,7 @@ namespace Liyanjie.Modularization.Sample.AspNet
                     "transient" => services.AddTransient(type, registerServiceImplementationFactory),
                     _ => services,
                 };
-            this.AddModularization(registerServiceType, registerServiceInstance)
+            this.AddModularization(registerServiceType, registerServiceImplementationFactory)
                 //.AddModule<TModule,TModuleOptions>()
                 ;
             #endregion
