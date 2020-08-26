@@ -5,9 +5,9 @@
         <OutputType>Library</OutputType>
         <IsPackable>True</IsPackable>
         <Description>Liyanjie.Modularization.AspNetCore</Description>
-        <Copyright>© Liyanjie.me</Copyright>
+        <Copyright>© Liyanjie.net</Copyright>
         <Authors>liyanjie8712@outlook.com</Authors>
-        <Company>Liyanjie.me</Company>
+        <Company>Liyanjie.net</Company>
         <RepositoryUrl>https://github.com/liyanjie8712/Modularization</RepositoryUrl>
         <PackageProjectUrl>https://github.com/liyanjie8712/Modularization</PackageProjectUrl>
         <RepositoryType>Git</RepositoryType>
