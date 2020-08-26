@@ -25,7 +25,7 @@ namespace Liyanjie.Modularization.Sample.AspNet
                     "transient" => services.AddTransient(type),
                     _ => services,
                 };
-            static void registerServiceInstance(
+            static void registerServiceImplementationFactory(
                 Type type, 
                 Func<IServiceProvider, object> registerServiceImplementationFactory,
                 string lifeTime)
