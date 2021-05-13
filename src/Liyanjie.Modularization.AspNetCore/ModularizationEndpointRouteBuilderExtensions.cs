@@ -1,5 +1,4 @@
-﻿#if NETCOREAPP3_0
-using System;
+﻿using System;
 
 using Liyanjie.Modularization.AspNetCore;
 
@@ -39,4 +38,3 @@ namespace Microsoft.AspNetCore.Builder
         }
     }
 }
-#endif

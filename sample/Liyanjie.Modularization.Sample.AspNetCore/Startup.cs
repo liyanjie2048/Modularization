@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Liyanjie.Modularization.Sample.AspNetCore_3_0
+namespace Liyanjie.Modularization.Sample.AspNetCore
 {
     public class Startup
     {

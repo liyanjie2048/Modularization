@@ -19,7 +19,7 @@
         <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_NugetPackages\" />
     </Target>
 
-    <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+    <ItemGroup>
         <PackageReference Include="Liyanjie.Utilities" Version="1.0.0" />
         <PackageReference Include="Liyanjie.TemplateMatching" Version="1.0.0" />
         <Reference Include="System.Web" />

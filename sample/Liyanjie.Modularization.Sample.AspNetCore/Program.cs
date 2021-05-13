@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Liyanjie.Modularization.Sample.AspNetCore_3_0
+namespace Liyanjie.Modularization.Sample.AspNetCore
 {
     public class Program
     {
