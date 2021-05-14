@@ -10,8 +10,8 @@ namespace Liyanjie.Modularization.AspNet
     {
         readonly Action<Type, string> registerServiceType;
         readonly Action<Type, Func<IServiceProvider, object>, string> registerServiceImplementationFactory;
-        readonly Dictionary<string, ModularizationModuleMiddleware[]> modules = new Dictionary<string, ModularizationModuleMiddleware[]>();
-        readonly Dictionary<string, object> moduleOptions = new Dictionary<string, object>();
+        readonly Dictionary<string, ModularizationModuleMiddleware[]> modules = new();
+        readonly Dictionary<string, object> moduleOptions = new();
 
         /// <summary>
         /// 

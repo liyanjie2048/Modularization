@@ -11,7 +11,7 @@ namespace Liyanjie.Modularization.AspNetCore
     public sealed class ModularizationModuleTable
     {
         readonly IServiceCollection services;
-        readonly Dictionary<string, ModularizationModuleMiddleware[]> modules = new Dictionary<string, ModularizationModuleMiddleware[]>();
+        readonly Dictionary<string, ModularizationModuleMiddleware[]> modules = new();
 
         /// <summary>
         /// 

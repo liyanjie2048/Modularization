@@ -52,8 +52,8 @@ namespace System.Web
         /// <returns></returns>
         public static ModularizationModuleTable AddModularization(this HttpApplication app)
         {
-            moduleTable = new ModularizationModuleTable();
-            middleware = new ModularizationMiddleware(moduleTable);
+            moduleTable = new();
+            middleware = new(moduleTable);
 
             return moduleTable;
         }
