@@ -24,7 +24,7 @@ namespace System.Web
         public static HttpApplication UseModularization(this HttpApplication app
             , IServiceProvider serviceProvider)
         {
-            var moduleTable = serviceProvider.GetRequiredService<ModuleTable>();
+            var moduleTable = serviceProvider.GetRequiredService<ModularizationModuleTable>();
             foreach (var module in moduleTable.Modules)
             {
                 foreach (var middleware in module.Value)

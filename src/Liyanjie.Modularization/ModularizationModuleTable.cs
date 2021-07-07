@@ -8,16 +8,16 @@ namespace Liyanjie.Modularization
     /// <summary>
     /// 
     /// </summary>
-    public sealed class ModuleTable
+    public sealed class ModularizationModuleTable
     {
         readonly IServiceCollection services;
-        readonly Dictionary<string, ModuleMiddleware[]> modules = new();
+        readonly Dictionary<string, ModularizationModuleMiddleware[]> modules = new();
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="services"></param>
-        public ModuleTable(IServiceCollection services)
+        public ModularizationModuleTable(IServiceCollection services)
         {
             this.services = services;
         }
@@ -30,7 +30,7 @@ namespace Liyanjie.Modularization
         /// <summary>
         /// 
         /// </summary>
-        public IReadOnlyDictionary<string, ModuleMiddleware[]> Modules => modules;
+        public IReadOnlyDictionary<string, ModularizationModuleMiddleware[]> Modules => modules;
 
         /// <summary>
         /// 
@@ -39,9 +39,9 @@ namespace Liyanjie.Modularization
         /// <param name="moduleMiddlewares"></param>
         /// <param name="configureModuleOptions"></param>
         /// <returns></returns>
-        public ModuleTable AddModule<TModuleOptions>(
+        public ModularizationModuleTable AddModule<TModuleOptions>(
             string moduleName,
-            ModuleMiddleware[] moduleMiddlewares,
+            ModularizationModuleMiddleware[] moduleMiddlewares,
             Action<TModuleOptions> configureModuleOptions = null)
             where TModuleOptions : class
         {

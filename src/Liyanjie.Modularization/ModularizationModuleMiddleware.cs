@@ -5,7 +5,7 @@ namespace Liyanjie.Modularization
     /// <summary>
     /// 
     /// </summary>
-    public struct ModuleMiddleware
+    public struct ModularizationModuleMiddleware
     {
         /// <summary>
         /// 

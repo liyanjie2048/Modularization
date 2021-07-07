@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns></returns>
         public static IEndpointRouteBuilder MapModularization(this IEndpointRouteBuilder endpoints)
         {
-            var moduleTable = endpoints.ServiceProvider.GetRequiredService<ModuleTable>();
+            var moduleTable = endpoints.ServiceProvider.GetRequiredService<ModularizationModuleTable>();
 
             foreach (var module in moduleTable.Modules)
             {
