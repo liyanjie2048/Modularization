@@ -20,8 +20,8 @@ namespace Liyanjie.Modularization.Sample.AspNet
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            var serviceProvider = this.serviceProvider.CreateScope().ServiceProvider;
-            this.UseModularization(serviceProvider);
+            using var scope = this.serviceProvider.CreateScope();
+            this.UseModularization(scope.ServiceProvider);
         }
     }
 }
