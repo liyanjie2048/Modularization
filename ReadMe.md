@@ -1,13 +1,13 @@
 # Modularization
 
 - #### Liyanjie.Modularization
-    - ModuleMiddleware
+  - ModuleMiddleware
     ```csharp
     string[] HttpMethods { get; set; }
     string RouteTemplate { get; set; }
     HandlerType { get; set; }
     ```
-    - ModuleTable
+  - ModuleTable
     ```csharp
     ModuleTable AddModule<TModuleOptions>(
         string moduleName,
@@ -15,7 +15,7 @@
         Action<TModuleOptions> configureModuleOptions = null)
         where TModuleOptions : class
     ```
-    - ExtendMethods
+  - ExtendMethods
     ```csharp
     //services is IServiceCollection
     services.AddModularization()
@@ -26,13 +26,13 @@
             where TModuleOptions : class;
     ```
 - #### Liyanjie.Modularization.AspNet
-    - ExtendMethods
+  - ExtendMethods
     ```csharp
     //app is HttpApplication
     app.UseModularization(IServiceProvider serviceProvider);
     ```
 - #### Liyanjie.Modularization.AspNetCore
-    - ExtendMethods
+  - ExtendMethods
     ```csharp
     //endpoints is IEndpointRouteBuilder
     endpoints.MapModularization();
