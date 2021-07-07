@@ -1,4 +1,12 @@
-﻿using Liyanjie.Modularization.AspNet;
+﻿using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Web.Routing;
+
+using Liyanjie.Modularization;
+using Liyanjie.TemplateMatching;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace System.Web
 {
@@ -8,68 +16,49 @@ namespace System.Web
     public static class ModularizationHttpApplicationExtensions
     {
         /// <summary>
-        /// Add in Global.Application_Start (Use DI)
-        /// </summary>
-        /// <param name="app"></param>
-        /// <param name="registerServiceType"></param>
-        /// <param name="registerServiceImplementationFactory"></param>
-        /// <returns></returns>
-        public static ModularizationModuleTable AddModularization(this HttpApplication app,
-            Action<Type, string> registerServiceType,
-            Action<Type, Func<IServiceProvider, object>, string> registerServiceImplementationFactory)
-        {
-            var moduleTable = new ModularizationModuleTable(registerServiceType, registerServiceImplementationFactory);
-            registerServiceImplementationFactory.Invoke(typeof(ModularizationModuleTable), serviceProvider => moduleTable, "Singleton");
-            registerServiceImplementationFactory.Invoke(typeof(ModularizationMiddleware), serviceProvider => new ModularizationMiddleware(serviceProvider), "Singleton");
-
-            return moduleTable;
-        }
-
-        /// <summary>
-        /// Add in Global.Application_BeginRequest (Use DI)
+        /// Add in Global.Application_BeginRequest
         /// </summary>
         /// <param name="app"></param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static HttpApplication UseModularization(this HttpApplication app,
-            IServiceProvider serviceProvider)
+        public static HttpApplication UseModularization(this HttpApplication app
+            , IServiceProvider serviceProvider)
         {
-            var middleware = serviceProvider.GetService(typeof(ModularizationMiddleware)) as ModularizationMiddleware;
-            middleware?.InvokeAsync(app.Context)?.Wait();
+            var moduleTable = serviceProvider.GetRequiredService<ModuleTable>();
+            foreach (var module in moduleTable.Modules)
+            {
+                foreach (var middleware in module.Value)
+                {
+                    if (false
+                        || middleware.HttpMethods == null
+                        || middleware.HttpMethods.Contains(app.Context.Request.HttpMethod))
+                    {
+                        var routeValues = new RouteValueDictionary();
+                        var templateMatcher = new TemplateMatcher(TemplateParser.Parse(middleware.RouteTemplate), routeValues);
+                        if (templateMatcher.TryMatch(app.Context.Request.Path, routeValues))
+                        {
+                            var _middleware = ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, middleware.HandlerType);
+                            if (_middleware == null)
+                                throw new NotSupportedException($"未能成功创建 {middleware.HandlerType.Name} 的实例");
+
+                            var method = middleware.HandlerType.GetMethod("InvokeAsync", BindingFlags.Public | BindingFlags.Instance);
+                            if (method == null)
+                                throw new NotSupportedException($"在类型 {middleware.HandlerType.Name} 中未找到匹配的 InvokeAsync 方法");
+
+                            var task = (method.GetParameters().Length switch
+                            {
+                                0 => method.Invoke(_middleware, null) as Task,
+                                1 => method.Invoke(_middleware, new[] { app.Context }) as Task,
+                                2 => method.Invoke(_middleware, new object[] { app.Context, routeValues }) as Task,
+                                _ => throw new NotSupportedException($"未找到匹配的 InvokeAsync 方法"),
+                            });
+                            task.Wait();
+                        }
+                    }
+                }
+            }
 
             return app;
         }
-
-        #region Static ModuleTable Mode
-
-        static ModularizationModuleTable moduleTable;
-        static ModularizationMiddleware middleware;
-
-        /// <summary>
-        /// Add in Global.Application_Start (Static Mode)
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static ModularizationModuleTable AddModularization(this HttpApplication app)
-        {
-            moduleTable = new();
-            middleware = new(moduleTable);
-
-            return moduleTable;
-        }
-
-        /// <summary>
-        /// Add in Global.Application_BeginRequest (Static Mode)
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static HttpApplication UseModularization(this HttpApplication app)
-        {
-            middleware.InvokeAsync(app.Context).Wait();
-
-            return app;
-        }
-
-        #endregion
     }
 }

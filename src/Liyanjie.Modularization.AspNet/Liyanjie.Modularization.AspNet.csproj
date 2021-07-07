@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net452;</TargetFrameworks>
+        <TargetFrameworks>net461;</TargetFrameworks>
         <Description>Liyanjie.Modularization.AspNet</Description>
         <Copyright>© Liyanjie.net</Copyright>
         <Authors>liyanjie8712@outlook.com</Authors>
@@ -15,13 +15,26 @@
         <DocumentationFile>bin\Release\Liyanjie.Modularization.AspNet.xml</DocumentationFile>
     </PropertyGroup>
 
+    <ItemGroup>
+        <None Include="..\..\liyanjie.net.256.png">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
+
     <Target Name="MovePackage" AfterTargets="Pack">
         <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\_NugetPackages\" />
     </Target>
 
     <ItemGroup>
         <PackageReference Include="Liyanjie.TemplateMatching" Version="1.0.0" />
-        <PackageReference Include="Liyanjie.Utilities" Version="1.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Liyanjie.Modularization\Liyanjie.Modularization.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Reference Include="System.Web" />
     </ItemGroup>
 

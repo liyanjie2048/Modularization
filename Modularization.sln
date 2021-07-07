@@ -13,12 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.Asp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6D6F3E51-AB06-4D2D-9FBA-2E5D6644194A}"
 	ProjectSection(SolutionItems) = preProject
-		ReadMe.md = ReadMe.md
+		liyanjie.net.256.png = liyanjie.net.256.png
+		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liyanjie.Modularization.Sample.AspNet", "sample\Liyanjie.Modularization.Sample.AspNet\Liyanjie.Modularization.Sample.AspNet.csproj", "{C87CCD13-8A86-497E-942C-CD4487A2FBDB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.Sample.AspNetCore", "sample\Liyanjie.Modularization.Sample.AspNetCore\Liyanjie.Modularization.Sample.AspNetCore.csproj", "{A76B249D-F6F2-4F37-8E77-CCC4A1B386A5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization", "SRC\Liyanjie.Modularization\Liyanjie.Modularization.csproj", "{80E89E37-5552-4B0C-B0FC-033D13A2A2F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liyanjie.Modularization.Sample.AspNet", "sample\Liyanjie.Modularization.Sample.AspNet\Liyanjie.Modularization.Sample.AspNet.csproj", "{AF6D583C-0AFE-4F0F-A469-10F5A0052461}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,14 +37,18 @@ Global
 		{81A5EBA6-1CBF-446E-A6AB-47A24F741595}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81A5EBA6-1CBF-446E-A6AB-47A24F741595}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81A5EBA6-1CBF-446E-A6AB-47A24F741595}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C87CCD13-8A86-497E-942C-CD4487A2FBDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C87CCD13-8A86-497E-942C-CD4487A2FBDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C87CCD13-8A86-497E-942C-CD4487A2FBDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C87CCD13-8A86-497E-942C-CD4487A2FBDB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A76B249D-F6F2-4F37-8E77-CCC4A1B386A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A76B249D-F6F2-4F37-8E77-CCC4A1B386A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A76B249D-F6F2-4F37-8E77-CCC4A1B386A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A76B249D-F6F2-4F37-8E77-CCC4A1B386A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80E89E37-5552-4B0C-B0FC-033D13A2A2F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80E89E37-5552-4B0C-B0FC-033D13A2A2F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80E89E37-5552-4B0C-B0FC-033D13A2A2F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80E89E37-5552-4B0C-B0FC-033D13A2A2F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF6D583C-0AFE-4F0F-A469-10F5A0052461}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF6D583C-0AFE-4F0F-A469-10F5A0052461}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF6D583C-0AFE-4F0F-A469-10F5A0052461}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF6D583C-0AFE-4F0F-A469-10F5A0052461}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,8 +56,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D6066759-3C99-44E1-9733-78B4E14EE42F} = {C39068E7-4621-4298-9026-075548EFA1C2}
 		{81A5EBA6-1CBF-446E-A6AB-47A24F741595} = {C39068E7-4621-4298-9026-075548EFA1C2}
-		{C87CCD13-8A86-497E-942C-CD4487A2FBDB} = {FBD1CD32-8DE5-4130-B7A2-59836D54A3BA}
 		{A76B249D-F6F2-4F37-8E77-CCC4A1B386A5} = {FBD1CD32-8DE5-4130-B7A2-59836D54A3BA}
+		{80E89E37-5552-4B0C-B0FC-033D13A2A2F3} = {C39068E7-4621-4298-9026-075548EFA1C2}
+		{AF6D583C-0AFE-4F0F-A469-10F5A0052461} = {FBD1CD32-8DE5-4130-B7A2-59836D54A3BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {71FFF733-F661-4D81-9109-B28E55AF8AD2}

@@ -1,6 +1,4 @@
-﻿using System;
-
-using Liyanjie.Modularization.AspNetCore;
+﻿using Liyanjie.Modularization;
 
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +17,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns></returns>
         public static IEndpointRouteBuilder MapModularization(this IEndpointRouteBuilder endpoints)
         {
-            var moduleTable = endpoints.ServiceProvider.GetService<ModularizationModuleTable>();
+            var moduleTable = endpoints.ServiceProvider.GetRequiredService<ModuleTable>();
 
             foreach (var module in moduleTable.Modules)
             {

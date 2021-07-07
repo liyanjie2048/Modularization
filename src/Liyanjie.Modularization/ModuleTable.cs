@@ -3,21 +3,21 @@ using System.Collections.Generic;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Liyanjie.Modularization.AspNetCore
+namespace Liyanjie.Modularization
 {
     /// <summary>
     /// 
     /// </summary>
-    public sealed class ModularizationModuleTable
+    public sealed class ModuleTable
     {
         readonly IServiceCollection services;
-        readonly Dictionary<string, ModularizationModuleMiddleware[]> modules = new();
+        readonly Dictionary<string, ModuleMiddleware[]> modules = new();
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="services"></param>
-        public ModularizationModuleTable(IServiceCollection services)
+        public ModuleTable(IServiceCollection services)
         {
             this.services = services;
         }
@@ -30,7 +30,7 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <summary>
         /// 
         /// </summary>
-        public IReadOnlyDictionary<string, ModularizationModuleMiddleware[]> Modules => modules;
+        public IReadOnlyDictionary<string, ModuleMiddleware[]> Modules => modules;
 
         /// <summary>
         /// 
@@ -39,9 +39,9 @@ namespace Liyanjie.Modularization.AspNetCore
         /// <param name="moduleMiddlewares"></param>
         /// <param name="configureModuleOptions"></param>
         /// <returns></returns>
-        public ModularizationModuleTable AddModule<TModuleOptions>(
+        public ModuleTable AddModule<TModuleOptions>(
             string moduleName,
-            ModularizationModuleMiddleware[] moduleMiddlewares,
+            ModuleMiddleware[] moduleMiddlewares,
             Action<TModuleOptions> configureModuleOptions = null)
             where TModuleOptions : class
         {

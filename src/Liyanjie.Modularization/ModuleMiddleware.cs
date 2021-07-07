@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Liyanjie.Modularization.AspNetCore
+namespace Liyanjie.Modularization
 {
     /// <summary>
     /// 
     /// </summary>
-    public struct ModularizationModuleMiddleware
+    public struct ModuleMiddleware
     {
         /// <summary>
         /// 
