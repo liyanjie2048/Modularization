@@ -1,37 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <PropertyGroup>
-        <TargetFrameworks>net5.0;</TargetFrameworks>
-        <OutputType>Library</OutputType>
-        <IsPackable>True</IsPackable>
-        <Description>Liyanjie.Modularization.AspNetCore</Description>
-        <Copyright>© Liyanjie.net</Copyright>
-        <Authors>liyanjie8712@outlook.com</Authors>
-        <Company>Liyanjie.net</Company>
-        <RepositoryUrl>https://github.com/liyanjie8712/Modularization</RepositoryUrl>
-        <PackageProjectUrl>https://github.com/liyanjie8712/Modularization</PackageProjectUrl>
-        <RepositoryType>Git</RepositoryType>
-        <PackageIcon>liyanjie.net.256.png</PackageIcon>
-        <PackageIconUrl />
-    </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;</TargetFrameworks>
+		<OutputType>Library</OutputType>
+		<IsPackable>True</IsPackable>
+		<Description>Liyanjie.Modularization.AspNetCore</Description>
+		<Copyright>© Liyanjie.net</Copyright>
+		<Authors>liyanjie8712@outlook.com</Authors>
+		<Company>Liyanjie.net</Company>
+		<RepositoryUrl>https://github.com/liyanjie8712/Modularization</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/liyanjie8712/Modularization</PackageProjectUrl>
+		<RepositoryType>Git</RepositoryType>
+		<PackageIcon>liyanjie.net.256.png</PackageIcon>
+		<PackageIconUrl />
+	</PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)'=='Release'">
-        <DocumentationFile>bin\Release\Liyanjie.Modularization.AspNetCore.xml</DocumentationFile>
-    </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DocumentationFile>bin\Release\Liyanjie.Modularization.AspNetCore.xml</DocumentationFile>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <None Include="..\..\liyanjie.net.256.png">
-            <Pack>True</Pack>
-            <PackagePath></PackagePath>
-        </None>
-    </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\liyanjie.net.256.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
-    <Target Name="MovePackage" AfterTargets="Pack">
-        <Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\_NugetPackages\" />
-    </Target>
+	<Target Name="MovePackage" AfterTargets="Pack">
+		<Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_Packages\" />
+	</Target>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Liyanjie.Modularization\Liyanjie.Modularization.csproj" />
-    </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Liyanjie.Modularization\Liyanjie.Modularization.csproj" />
+	</ItemGroup>
 
 </Project>

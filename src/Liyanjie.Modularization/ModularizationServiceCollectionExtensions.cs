@@ -1,23 +1,20 @@
-﻿using Liyanjie.Modularization;
+﻿namespace Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection
+/// <summary>
+/// 
+/// </summary>
+public static class ModularizationServiceCollectionExtensions
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class ModularizationServiceCollectionExtensions
+    /// <param name="services"></param>
+    /// <returns></returns>
+    public static ModularizationModuleTable AddModularization(this IServiceCollection services)
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static ModularizationModuleTable AddModularization(this IServiceCollection services)
-        {
-            var moduleTable = new ModularizationModuleTable(services);
-            services.AddSingleton(moduleTable);
+        var moduleTable = new ModularizationModuleTable(services);
+        services.AddSingleton(moduleTable);
 
-            return moduleTable;
-        }
+        return moduleTable;
     }
 }
