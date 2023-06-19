@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Liyanjie.Modularization": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:4422;http://localhost:4423"
+    }
+  }
+}
