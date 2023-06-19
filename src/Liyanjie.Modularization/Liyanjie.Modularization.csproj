@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
+		<IsPackable>True</IsPackable>
 		<TargetFrameworks>net6.0;</TargetFrameworks>
 		<Description>Liyanjie.Modularization</Description>
 		<Copyright>© Liyanjie.net</Copyright>
