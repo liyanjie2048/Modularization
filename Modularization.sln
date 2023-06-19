@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{FBD1CD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C39068E7-4621-4298-9026-075548EFA1C2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.AspNetCore", "src\Liyanjie.Modularization.AspNetCore\Liyanjie.Modularization.AspNetCore.csproj", "{81A5EBA6-1CBF-446E-A6AB-47A24F741595}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.Sample.AspNetCore", "sample\Liyanjie.Modularization.Sample.AspNetCore\Liyanjie.Modularization.Sample.AspNetCore.csproj", "{A76B249D-F6F2-4F37-8E77-CCC4A1B386A5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization", "SRC\Liyanjie.Modularization\Liyanjie.Modularization.csproj", "{80E89E37-5552-4B0C-B0FC-033D13A2A2F3}"
@@ -29,6 +31,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{81A5EBA6-1CBF-446E-A6AB-47A24F741595}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81A5EBA6-1CBF-446E-A6AB-47A24F741595}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81A5EBA6-1CBF-446E-A6AB-47A24F741595}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81A5EBA6-1CBF-446E-A6AB-47A24F741595}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A76B249D-F6F2-4F37-8E77-CCC4A1B386A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A76B249D-F6F2-4F37-8E77-CCC4A1B386A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A76B249D-F6F2-4F37-8E77-CCC4A1B386A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -42,6 +48,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{81A5EBA6-1CBF-446E-A6AB-47A24F741595} = {C39068E7-4621-4298-9026-075548EFA1C2}
 		{A76B249D-F6F2-4F37-8E77-CCC4A1B386A5} = {FBD1CD32-8DE5-4130-B7A2-59836D54A3BA}
 		{80E89E37-5552-4B0C-B0FC-033D13A2A2F3} = {C39068E7-4621-4298-9026-075548EFA1C2}
 	EndGlobalSection
