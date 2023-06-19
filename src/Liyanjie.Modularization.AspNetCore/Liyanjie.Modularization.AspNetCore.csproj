@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;</TargetFrameworks>
 		<OutputType>Library</OutputType>
 		<IsPackable>True</IsPackable>
+		<TargetFrameworks>net6.0;</TargetFrameworks>
 		<Description>Liyanjie.Modularization.AspNetCore</Description>
 		<Copyright>© Liyanjie.net</Copyright>
 		<Authors>liyanjie8712@outlook.com</Authors>
