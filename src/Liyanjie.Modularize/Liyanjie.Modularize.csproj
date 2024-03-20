@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net8.0;</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>true</ImplicitUsings>
+		<VersionSuffix>240320</VersionSuffix>
+		<Description>Liyanjie.Modularize</Description>
+		<Copyright>© Liyanjie.net</Copyright>
+		<Authors>liyanjie2048@outlook.com</Authors>
+		<Company>Liyanjie.net</Company>
+		<RepositoryUrl>https://github.com/liyanjie2048/Modularize</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/liyanjie2048/Modularize</PackageProjectUrl>
+		<RepositoryType>Git</RepositoryType>
+		<PackageIcon>liyanjie.net.256.png</PackageIcon>
+		<PackageIconUrl />
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DocumentationFile>bin\Release\Liyanjie.Modularize.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\liyanjie.net.256.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+		<PackageReference Include="Microsoft.Extensions.Options" />
+	</ItemGroup>
+
+	<Target Name="MovePackage" AfterTargets="Pack">
+		<Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionPath)\..\dist\" />
+	</Target>
+
+</Project>

@@ -1,9 +1,9 @@
-﻿namespace Liyanjie.Modularization;
+﻿namespace Liyanjie.Modularize;
 
 /// <summary>
 /// 
 /// </summary>
-public struct ModularizationModuleMiddleware
+public struct ModularizeModuleMiddleware
 {
     /// <summary>
     /// 

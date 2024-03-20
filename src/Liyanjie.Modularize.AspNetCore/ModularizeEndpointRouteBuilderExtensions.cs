@@ -3,23 +3,23 @@
 /// <summary>
 /// 
 /// </summary>
-public static class ModularizationEndpointRouteBuilderExtensions
+public static class ModularizeEndpointRouteBuilderExtensions
 {
     /// <summary>
     /// 
     /// </summary>
     /// <param name="endpoints"></param>
     /// <returns></returns>
-    public static IEndpointRouteBuilder MapModularization(this IEndpointRouteBuilder endpoints)
+    public static IEndpointRouteBuilder MapModularize(this IEndpointRouteBuilder endpoints)
     {
-        var moduleTable = endpoints.ServiceProvider.GetRequiredService<ModularizationModuleTable>();
+        var moduleTable = endpoints.ServiceProvider.GetRequiredService<ModularizeModuleTable>();
 
         foreach (var module in moduleTable.Modules)
         {
             foreach (var middleware in module.Value)
             {
                 var pipeline = endpoints.CreateApplicationBuilder().UseMiddleware(middleware.HandlerType).Build();
-                var displayName = $"Modularization-{module.Key}-{middleware.RouteTemplate}";
+                var displayName = $"Modularized-{module.Key}-{middleware.RouteTemplate}";
                 if (middleware.HttpMethods == null)
                     endpoints.Map(middleware.RouteTemplate, pipeline).WithDisplayName(displayName);
                 else

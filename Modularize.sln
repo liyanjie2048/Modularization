@@ -7,21 +7,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{FBD1CD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C39068E7-4621-4298-9026-075548EFA1C2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.AspNetCore", "src\Liyanjie.Modularization.AspNetCore\Liyanjie.Modularization.AspNetCore.csproj", "{81A5EBA6-1CBF-446E-A6AB-47A24F741595}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularize.AspNetCore", "src\Liyanjie.Modularize.AspNetCore\Liyanjie.Modularize.AspNetCore.csproj", "{81A5EBA6-1CBF-446E-A6AB-47A24F741595}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization.Sample.AspNetCore", "sample\Liyanjie.Modularization.Sample.AspNetCore\Liyanjie.Modularization.Sample.AspNetCore.csproj", "{A76B249D-F6F2-4F37-8E77-CCC4A1B386A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularize.Sample.AspNetCore", "sample\Liyanjie.Modularize.Sample.AspNetCore\Liyanjie.Modularize.Sample.AspNetCore.csproj", "{A76B249D-F6F2-4F37-8E77-CCC4A1B386A5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularization", "SRC\Liyanjie.Modularization\Liyanjie.Modularization.csproj", "{80E89E37-5552-4B0C-B0FC-033D13A2A2F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liyanjie.Modularize", "SRC\Liyanjie.Modularize\Liyanjie.Modularize.csproj", "{80E89E37-5552-4B0C-B0FC-033D13A2A2F3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{33540F88-FFAB-4418-9D63-A8E1BC0A9254}"
 	ProjectSection(SolutionItems) = preProject
-		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
 		LICENSE = LICENSE
 		liyanjie.net.256.png = liyanjie.net.256.png
-		NuGet.config = NuGet.config
+		Publish.bat = Publish.bat
 		README.md = README.md
 	EndProjectSection
 EndProject

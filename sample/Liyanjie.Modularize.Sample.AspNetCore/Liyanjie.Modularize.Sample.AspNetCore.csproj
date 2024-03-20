@@ -5,7 +5,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Liyanjie.Modularization.AspNetCore\Liyanjie.Modularization.AspNetCore.csproj" />
+		<ProjectReference Include="..\..\src\Liyanjie.Modularize.AspNetCore\Liyanjie.Modularize.AspNetCore.csproj" />
 	</ItemGroup>
 
 </Project>

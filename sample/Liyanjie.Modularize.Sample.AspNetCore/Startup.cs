@@ -10,7 +10,7 @@ namespace Liyanjie.Modularization.Sample.AspNetCore
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddModularization();
+            services.AddModularize();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -24,7 +24,7 @@ namespace Liyanjie.Modularization.Sample.AspNetCore
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapModularization();
+                endpoints.MapModularize();
                 endpoints.MapGet("/", async context =>
                 {
                     await context.Response.WriteAsync("Hello World!");

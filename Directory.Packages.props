@@ -2,8 +2,12 @@
 	<PropertyGroup>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 	</PropertyGroup>
-	<ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
 		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 		<PackageVersion Include="Microsoft.Extensions.Options" Version="6.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0' or '$(TargetFramework)'=='netstandard2.1' or '$(TargetFramework)'=='net8.0'">
+		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Options" Version="8.0.0" />
 	</ItemGroup>
 </Project>
