@@ -7,12 +7,12 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>true</ImplicitUsings>
 		<VersionSuffix>240320</VersionSuffix>
-		<Description>Liyanjie.Modularization.AspNetCore</Description>
+		<Description>Liyanjie.Modularize.AspNetCore</Description>
 		<Copyright>© Liyanjie.net</Copyright>
 		<Authors>liyanjie2048@outlook.com</Authors>
 		<Company>Liyanjie.net</Company>
-		<RepositoryUrl>https://github.com/liyanjie2048/Modularization</RepositoryUrl>
-		<PackageProjectUrl>https://github.com/liyanjie2048/Modularization</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/liyanjie2048/Modularize</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/liyanjie2048/Modularize</PackageProjectUrl>
 		<RepositoryType>Git</RepositoryType>
 		<PackageIcon>liyanjie.net.256.png</PackageIcon>
 		<PackageIconUrl />
